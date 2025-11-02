@@ -1,5 +1,4 @@
-import { Search, SlidersHorizontal } from "lucide-react";
-import Button from "./ui/Button";
+import { Search } from "lucide-react";
 
 export default function SearchBar() {
   return (

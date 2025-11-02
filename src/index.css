@@ -1,8 +1,20 @@
-@import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;700&amp;display=swap");
+
 @import "@radix-ui/themes/styles.css";
+@import "tailwindcss";
 
-@custom-variant dark (&:is(.dark *));
+@custom-variant dark (&:where(.dark, .dark *));
 
-:root {
-  color-scheme: dark;
+* {
+  font-family: "Spline Sans", sans-serif;
+  font-weight: 600;
+}
+
+@theme {
+  --color-background-dark: #191022; /* fondo */
+  --color-primary: #7f13ec;         /* color primario como para botones */
+  --color-primary-600:#6b0ed3;      /* variacion de color primario como para el hover en botones*/
+  --color-text:       #e8e6ee;      /* texto primario */
+  --color-subtle:     #b3aec0;      /* texto secundario/ayudas */
+  --color-muted:      #8b859a;      /* etiquetas/enlaces suaves */
 }

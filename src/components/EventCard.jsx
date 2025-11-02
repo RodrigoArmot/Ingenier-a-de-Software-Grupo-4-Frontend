@@ -3,7 +3,7 @@ import Button from "./ui/Button";
 
 export default function EventCard({ event }) {
   return (
-    <div className="overflow-hidden rounded-xl bg-zinc-900 ring-1 ring-white/10">
+    <div className="overflow-hidden rounded-xl bg-slate-900 ring-1 ring-white/10">
       <img
         src={event.image || `https://picsum.photos/seed/${event.id}/800/450`}
         alt={event.title}
@@ -17,7 +17,7 @@ export default function EventCard({ event }) {
         <p className="mt-1 text-sm text-zinc-400">{event.date} • {event.venue}</p>
         <div className="mt-3 flex items-center justify-between">
           <span className="text-sm text-zinc-300">Desde <b>S/. {event.price}</b></span>
-          <Button className="px-3 py-1.5">Comprar</Button>
+          <Button>Comprar</Button>
         </div>
       </div>
     </div>

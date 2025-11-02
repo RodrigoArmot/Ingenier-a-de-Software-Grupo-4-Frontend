@@ -20,14 +20,64 @@ Una moderna plataforma de venta de entradas para eventos construida con React, V
 
 1. Clona el repositorio
 2. Instala las dependencias:
-\`\`\`bash
+
+```bash
 npm install
-\`\`\`
+```
 
 ## 🏃 Ejecución
 
 Ejecuta el servidor de desarrollo:
 
-\`\`\`bash
+```bash
 npm run dev
-\`\`\`
+```
+
+## 🛠️ Tecnologías
+
+- **React 19.1** - Librería UI
+- **Vite 7** - Herramienta para construcción de proyectos react
+- **Tailwind CSS 4** - Framework de estilos
+- **React Router 7** - Routing
+- **Radix UI** - Componentes accesibles
+- **Lucide-react** Iconos
+
+## 📁 Estructura del Proyecto
+
+```
+src/
+
+├── App.jsx # Componente raíz y routing
+
+├── main.jsx # Entrada principal
+
+├── index.css # Estilos globales
+
+├── components/ # Componentes reutilizables
+
+│ ├── Button.jsx
+
+│ ├── Badge.jsx
+
+│ ├── Price.jsx
+
+│ ├── EventCard.jsx
+
+│ ├── SearchBar.jsx
+
+│ ├── Navbar.jsx
+
+│ └── ...
+
+└── pages/ # Páginas de la aplicación
+
+├── Landing.jsx # Página de inicio
+
+├── EventDetail.jsx # Detalles del evento
+
+├── SeatSelection.jsx # Selección de asientos
+
+├── Checkout.jsx # Carrito de compras
+
+└── Confirmation.jsx # Confirmación de compra
+```

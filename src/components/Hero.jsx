@@ -10,7 +10,7 @@ export default function Hero() {
         Descubre conciertos, deportes, teatro y más. Compra tus entradas de forma fácil y segura.
       </p>
       <div className="mt-6">
-        <Button className="px-6 py-2 text-base">Explorar eventos</Button>
+        <Button>Explorar eventos</Button>
       </div>
     </section>
   );

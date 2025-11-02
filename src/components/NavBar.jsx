@@ -1,11 +1,14 @@
+import { Link } from "react-router-dom";
 import SearchBar from "./SearchBar";
 import Button from "./ui/Button";
+import { Ticket } from "lucide-react";
 
 export default function Navbar({}) {
   return (
-    <header className="border-b border-zinc-800 bg-indigo-950 text-zinc-100 backdrop-blur supports-backdrop-filter:bg-background/60">
+    <header className="border-b border-zinc-800 bg-background-dark text-zinc-100 items-center">
       <div className="flex h-16 items-center justify-between px-4 md:px-6">
-        <a href="#" className="px-4">
+        <a href="/" className="px-4 flex items-center justify-center gap-2">
+          <Ticket className="h-6 w-6 text-primary" />
           <h1 className="text-xl font-semibold">Tikea</h1>
         </a>
 
@@ -24,9 +27,9 @@ export default function Navbar({}) {
         </div>
 
         <nav className="ml-auto hidden md:flex items-center gap-2">
-          <Button className="bg-zinc-800 hover:bg-zinc-700">
-            Iniciar Sesión
-          </Button>
+          <Link to="/login">
+            <Button>Iniciar Sesión</Button>
+          </Link>
           <Button>Registrarse</Button>
         </nav>
       </div>
