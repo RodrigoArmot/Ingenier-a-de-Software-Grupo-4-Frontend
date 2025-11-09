@@ -12,11 +12,14 @@ export default function Navbar({}) {
             <Ticket className="h-6 w-6 text-primary" />
             <h1 className="text-xl font-semibold">Tikea</h1>
           </a>
-          <nav className="hidden md:flex items-center gap-8">
-            <a href="#" className="text-sm hover:text-primary transition">
+          <nav className="hidden md:flex items-center gap-6 mx-auto">
+            <a href="#" className="text-sm transition">
               Explorar Eventos
             </a>
-            <a href="#" className="text-sm hover:text-primary transition">
+            <a href="/registrarProductor" className="text-sm transition">
+              Colabora con nosotros
+            </a>
+            <a href="#" className="text-sm transition">
               Ayuda
             </a>
           </nav>
