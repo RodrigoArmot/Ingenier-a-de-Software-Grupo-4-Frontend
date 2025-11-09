@@ -16,6 +16,9 @@ export default function Navbar({}) {
           <a href="#" className="text-sm transition">
             Explorar Eventos
           </a>
+          <a href="/registrarProductor" className="text-sm transition">
+            Colabora con nosotros
+          </a>
           <a href="#" className="text-sm transition">
             Ayuda
           </a>
