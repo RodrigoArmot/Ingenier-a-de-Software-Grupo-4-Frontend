@@ -191,7 +191,7 @@ export const RegistrarProductor = () => {
                                     Solo se acepta un único archivo en formato .zip o .rar.
                                 </Text>
                                 <FilePicker
-                                    labelText="Adjuntar documentación de registro público"
+                                    labelText="Adjuntar documentación de registro público."
                                     name="archivo"
                                     required
                                     accept=".zip,.rar"
