@@ -188,7 +188,7 @@ export const RegistrarProductor = () => {
                             <div className="space-y-2">
                                 <Heading size="3">Documentación</Heading>
                                 <Text size="2" color="gray">
-                                    Adjunta toda la documentación de registro público en un archivo comprimido (ZIP o RAR). <span className="text-red-500">*</span>
+                                    Solo se acepta un único archivo en formato .zip o .rar.
                                 </Text>
                                 <FilePicker
                                     labelText="Adjuntar documentación de registro público"
