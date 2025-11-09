@@ -14,10 +14,10 @@ function App() {
         <Route element={ <Layout/> }>
           <Route path="/" element={ <Home/> }/>
           <Route path="/login" element={ <Login/> }/>
-          <Route path="/signup" element={ <Signup/>}/>
-          <Route path="/user/configprofile" element={ <ConfigProfile/>}/>
+          <Route path="/signup" element={ <Signup/> }/>
+          <Route path="/user/configprofile" element={ <ConfigProfile/> }/>
           <Route path="/registrarProductor" element={ <RegistrarProductor/> }/>
-          <Route path="/registrarLocal" element={ <RegistrarLocal/>}/>
+          <Route path="/registrarLocal" element={ <RegistrarLocal/> }/>
         </Route>
       </Routes>
     </>
