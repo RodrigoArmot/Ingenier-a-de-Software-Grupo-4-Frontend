@@ -3,8 +3,26 @@ import Button from "../components/ui/Button";
 import { LoginCarousel } from "../components/LoginCarousel";
 import { LoginLabel } from "../components/LoginLabel";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import Validation from "../components/LoginValidation";
 
 export const Login = () => {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+  const [errors, setErrors] = useState({});
+
+  const handleInput = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setErrors(Validation(formData));
+    console.log(formData);
+  };
+
   return (
     <main className="flex h-full bg-background-dark ">
       {/* contenedor centrado */}
@@ -36,20 +54,24 @@ export const Login = () => {
             </p>
 
             {/* Form */}
-            <form
-              className="text-text mt-8 space-y-6"
-              onSubmit={(e) => e.preventDefault()}
-            >
+            <form className="text-text mt-8 space-y-6" onSubmit={handleSubmit}>
               {/* Email */}
-              <LoginLabel
-                type="email"
-                name="Correo electrónico"
-                placeholder="tu@correo.com"
-                required
-              />
+              <div className="mb-6">
+                <LoginLabel
+                  type="email"
+                  name="email"
+                  label="Correo electrónico"
+                  placeholder="tu@correo.com"
+                  onChange={handleInput}
+                />
+                {errors.email && <span className="text-red-400 text-sm">{errors.email}</span>}
+              </div>
 
               {/* Password + forgot */}
-              <LoginLabel type="password" />
+              <div className="mb-6">
+                <LoginLabel type="password" onChange={handleInput} />
+                {errors.password && <span className="text-red-400 text-sm">{errors.password}</span>}
+              </div>
 
               {/* CTA */}
               <Button

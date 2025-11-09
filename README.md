@@ -55,11 +55,11 @@ src/
 
 ├── components/ # Componentes reutilizables
 
-│ ├── Button.jsx
+│ ├── ui
 
-│ ├── Badge.jsx
+│ ├── ├── Button.jsx
 
-│ ├── Price.jsx
+│ ├── ├── Badge.jsx
 
 │ ├── EventCard.jsx
 
