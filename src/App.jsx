@@ -6,18 +6,20 @@ import { RegistrarLocal } from "./pages/RegistrarLocal";
 import Layout from "./components/layout/Layout";
 import { Signup } from "./pages/Signup";
 import { ConfigProfile } from "./pages/ConfigProfile";
+import { DeleteProfile } from "./pages/DeleteProfile";
 
 function App() {
   return (
     <>
       <Routes>
-        <Route element={ <Layout/> }>
-          <Route path="/" element={ <Home/> }/>
-          <Route path="/login" element={ <Login/> }/>
-          <Route path="/signup" element={ <Signup/> }/>
-          <Route path="/user/configprofile" element={ <ConfigProfile/> }/>
-          <Route path="/registrarProductor" element={ <RegistrarProductor/> }/>
-          <Route path="/registrarLocal" element={ <RegistrarLocal/> }/>
+        <Route element={<Layout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/user/configprofile" element={<ConfigProfile />} />
+          <Route path="/user/deleteprofile" element={<DeleteProfile />} />
+          <Route path="/registrarProductor" element={<RegistrarProductor />} />
+          <Route path="/registrarLocal" element={<RegistrarLocal />} />
         </Route>
       </Routes>
     </>

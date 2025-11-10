@@ -35,9 +35,8 @@ export const RegistrarProductor = () => {
   }
 
   return (
-    <main className="min-h-screen bg-background-dark text-text">
+    <main className="h-full bg-background-dark text-text">
       <HeaderRegistroProductor />
-
       <section className="mx-auto max-w-5xl px-4 py-6 md:py-8">
         <div className="rounded-2xl bg-slate-950/95 p-10 md:p-12 ring-1 shadow-2xl mb-5">
           <form onSubmit={handleSubmit} noValidate>
@@ -215,10 +214,10 @@ export const RegistrarProductor = () => {
                 />
               </div>
               <Flex gap="3" justify="end" mt="3">
-                <Button type="button" variant="soft" color="gray">
+                <Button variant="gray">
                   <Link to="/">Cancelar</Link>
                 </Button>
-                <Button type="submit" variant="solid">
+                <Button type="submit" >
                   Enviar solicitud
                 </Button>
               </Flex>
