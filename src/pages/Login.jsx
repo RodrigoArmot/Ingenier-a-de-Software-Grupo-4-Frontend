@@ -1,21 +1,41 @@
-import { useState } from "react";
-import { Eye, EyeOff, Ticket } from "lucide-react";
+import { Ticket } from "lucide-react";
 import Button from "../components/ui/Button";
+import { LoginCarousel } from "../components/LoginCarousel";
+import { LoginLabel } from "../components/LoginLabel";
+import { Link } from "react-router-dom";
+import { useState } from "react";
+import Validation from "../components/LoginValidation";
 
 export const Login = () => {
-  const [show, setShow] = useState(false);
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+  const [errors, setErrors] = useState({});
+
+  const handleInput = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setErrors(Validation(formData));
+    console.log(formData);
+  };
 
   return (
-    <main className="h-full bg-background-dark ">
+    <main className="flex h-full bg-background-dark ">
       {/* contenedor centrado */}
-      <div className="h-full grid place-items-center px-6">
+      <div className="w-full h-full lg:w-1/2 flex justify-center place-items-center px-6">
         <div className="w-full max-w-2xl">
           {/* Marca */}
           <header className="mb-8 flex items-center justify-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
-              <Ticket className="h-6 w-6" />
+            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-background-dark text-primary">
+              <Ticket className="h-12 w-10" />
             </div>
-            <span className="text-text text-4xl font-semibold tracking-tight">Tikea</span>
+            <span className="text-text text-4xl font-semibold tracking-tight">
+              Tikea
+            </span>
           </header>
 
           {/* Card */}
@@ -23,7 +43,10 @@ export const Login = () => {
             aria-labelledby="login-title"
             className="rounded-2xl bg-slate-950/95 p-10 md:p-12 ring-1 ring-border shadow-2xl"
           >
-            <h1 id="login-title" className="text-center text-text text-3xl md:text-4xl font-semibold">
+            <h1
+              id="login-title"
+              className="text-center text-text text-3xl md:text-4xl font-semibold"
+            >
               Bienvenido de nuevo
             </h1>
             <p className="mt-2 text-center text-base text-subtle">
@@ -31,56 +54,45 @@ export const Login = () => {
             </p>
 
             {/* Form */}
-            <form className="text-text mt-8 space-y-6" onSubmit={(e) => e.preventDefault()}>
+            <form className="text-text mt-8 space-y-6" onSubmit={handleSubmit}>
               {/* Email */}
-              <label className="block text-sm">
-                <span className="mb-2 block text-text">Correo electrónico</span>
-                <input
+              <div className="mb-6">
+                <LoginLabel
                   type="email"
-                  required
+                  name="email"
+                  label="Correo electrónico"
                   placeholder="tu@correo.com"
-                  className="w-full rounded-xl bg-surface-2 px-4 py-3 text-base placeholder:text-muted ring-1 ring-border focus:outline-none focus:ring-2 focus:ring-focus"
+                  onChange={handleInput}
                 />
-              </label>
+                {errors.email && <span className="text-red-400 text-sm">{errors.email}</span>}
+              </div>
 
               {/* Password + forgot */}
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-text">Contraseña</span>
-                <a href="#" className="text-xs text-muted hover:text-text transition-colors">
-                  ¿Olvidaste tu contraseña?
-                </a>
-              </div>
-              <div className="relative">
-                <input
-                  type={show ? "text" : "password"}
-                  required
-                  placeholder="Ingresa tu contraseña"
-                  className="w-full rounded-xl bg-surface-2 px-4 py-3 pr-12 text-base placeholder:text-muted ring-1 ring-border focus:outline-none focus:ring-2 focus:ring-focus"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShow((s) => !s)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 rounded-md p-2 text-muted hover:text-text focus:outline-none focus:ring-2 focus:ring-focus"
-                  aria-label={show ? "Ocultar contraseña" : "Mostrar contraseña"}
-                >
-                  {show ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
-                </button>
+              <div className="mb-6">
+                <LoginLabel type="password" onChange={handleInput} />
+                {errors.password && <span className="text-red-400 text-sm">{errors.password}</span>}
               </div>
 
               {/* CTA */}
-              <Button type="submit" className="mt-4 w-full h-12 md:h-14 text-base md:text-lg">
+              <Button
+                type="submit"
+                className="mt-4 w-full h-12 md:h-14 text-base md:text-lg"
+              >
                 Iniciar Sesión
               </Button>
 
               {/* Link registro dentro de la card */}
               <p className="pt-4 text-center text-sm text-muted">
                 ¿No tienes una cuenta?{" "}
-                <a href="#" className="text-primary hover:underline">Regístrate</a>
+                <Link to="/signup" className="text-primary hover:underline">
+                  Regístrate
+                </Link>
               </p>
             </form>
           </section>
         </div>
       </div>
+      <LoginCarousel />
     </main>
   );
 };
