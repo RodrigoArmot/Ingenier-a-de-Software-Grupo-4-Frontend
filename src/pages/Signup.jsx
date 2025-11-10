@@ -45,7 +45,7 @@ export const Signup = () => {
           {/* Card */}
           <section
             aria-labelledby="signup-title"
-            className="rounded-2xl bg-slate-950/95 p-10 md:p-12 ring-1 ring-border shadow-2xl mb-5"
+            className="rounded-2xl bg-slate-950/95 p-10 md:p-12 ring-1 shadow-2xl mb-5"
           >
             <h1
               id="login-title"

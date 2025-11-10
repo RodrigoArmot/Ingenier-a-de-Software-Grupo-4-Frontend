@@ -10,7 +10,7 @@ export const ConfigProfile = () => {
           <header className="text-4xl text-text p-6 mb-2">
             Modificar mi perfil
           </header>
-          <section className="rounded-2xl bg-slate-950/95 p-10 md:p-12 ring-1 ring-border shadow-2xl mb-5">
+          <section className="rounded-2xl bg-slate-950/95 p-10 md:p-12 ring-1 shadow-2xl mb-5">
             <header className="text-text mb-4 text-xl">
               Información Personal
             </header>
@@ -35,7 +35,7 @@ export const ConfigProfile = () => {
               </div>
             </div>
           </section>
-          <section className="rounded-2xl bg-slate-950/95 p-10 md:p-12 ring-1 ring-border shadow-2xl mb-5">
+          <section className="rounded-2xl bg-slate-950/95 p-10 md:p-12 ring-1 shadow-2xl mb-5">
             <header className="text-text mb-4 text-xl">
               Cambiar Contraseña
             </header>
