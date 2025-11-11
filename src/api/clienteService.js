@@ -1,15 +1,33 @@
 import api from "./axiosConfig";
 
 // Registrar cliente
-export const registrarCliente = async (clienteData) => {
-  const response = await api.post("/clientes/registro", clienteData);
-  return response.data;
+export const registrarCliente = async (formData) => {
+  const payload = {
+    nombre: formData.name,
+    apellidos: formData.lastname,
+    correo: formData.email,
+    password: formData.password,
+    telefono: formData.phonenumber,
+    dni: formData.dni,
+    direccion: formData.address,
+    nombreUser: formData.email,  // aca creo que es un campo mas en el form en realidad, por mientras lo dejare asi
+    puntosPromociones: 0,
+    tipoCliente: "REGISTRADO",
+  };
+
+  const { data } = await api.post("/clientes/registro", payload);
+  return data;
 };
 
 // Login cliente
-export const loginCliente = async (loginData) => {
-  const response = await api.post("/clientes/login", loginData);
-  return response.data;
+export const loginCliente = async ({ email, password }) => {
+  const payload = {
+    correo: email,
+    password,
+  };
+
+  const { data } = await api.post("/clientes/login", payload);
+  return data;
 };
 
 // Actualizar cliente

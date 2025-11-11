@@ -8,16 +8,12 @@ function Validation(formData) {
     error.email = "El correo no debe estar vacío";
   } else if (!email_pattern.test(formData.email)) {
     error.email = "El email no coincide";
-  } else {
-    error.email = "";
   }
 
   if (formData.password === "") {
     error.password = "La contraseña no debe estar vacía";
   } else if (!password_pattern.test(formData.password)) {
     error.password = "La contraseña no coincide";
-  } else {
-    error.password = "";
   }
 
   return error;

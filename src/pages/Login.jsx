@@ -1,11 +1,12 @@
+// src/pages/Login.jsx
 import { useState } from "react";
 import { Ticket } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../components/ui/Button";
 import { LoginCarousel } from "../components/LoginCarousel";
 import { LoginLabel } from "../components/LoginLabel";
 import Validation from "../components/LoginValidation";
-// import { loginCliente } from "../services/clienteService"; // lo usaremos luego
+import { loginCliente } from "../api/clienteService";
 
 export const Login = () => {
   const [formData, setFormData] = useState({
@@ -15,7 +16,8 @@ export const Login = () => {
   const [errors, setErrors] = useState({});
   const [apiError, setApiError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  // const navigate = useNavigate(); // cuando conectemos con el back
+
+  const navigate = useNavigate();
 
   const handleInput = (e) => {
     const { name, value } = e.target;
@@ -25,35 +27,33 @@ export const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Validación en front
     const validationErrors = Validation(formData);
     setErrors(validationErrors);
     setApiError("");
 
     if (Object.keys(validationErrors).length > 0) return;
 
-    // Cuando conectes con el back:
-    /*
     try {
       setIsSubmitting(true);
-      const data = await loginCliente({
-        email: formData.email,
-        password: formData.password,
-      });
 
-      // guardar usuario
+      // Llamada real al backend
+      const data = await loginCliente(formData);
+
+      // Si llegó aquí es que el back validó credenciales correctamente.
+      // Guarda los datos del cliente.
       localStorage.setItem("cliente", JSON.stringify(data));
-      navigate("/"); // redirigir a inicio
+
+      // Redirigir al home
+      navigate("/");
     } catch (err) {
       const msg =
         err?.response?.data?.message ||
-        "No se pudo iniciar sesión. Verifica tus datos.";
+        "No se pudo iniciar sesión. Verifica tus credenciales.";
       setApiError(msg);
     } finally {
       setIsSubmitting(false);
     }
-    */
-
-    console.log("Login submit (mock):", formData);
   };
 
   return (
@@ -154,6 +154,7 @@ export const Login = () => {
           </section>
         </div>
       </div>
+
       {/* Columna derecha: carrusel sólo en pantallas grandes */}
       <LoginCarousel />
     </div>
