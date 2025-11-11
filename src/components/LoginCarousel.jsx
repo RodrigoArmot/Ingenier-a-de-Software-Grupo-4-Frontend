@@ -12,13 +12,13 @@ export const LoginCarousel = () => {
   }, []);
 
   return (
-    <div className="relative hidden lg:flex h-full w-1/2 justify-center">
+    <div className="relative hidden lg:flex h-full w-1/2 justify-center bg-amber-400">
       {/* carousel */}
       <div className="flex justify-center items-center">
         {carouselImages.map((i, index) => (
           <img
             key={i.id}
-            className={`absolute w-full h-full transition-opacity duration-750 ${
+            className={`absolute w-full h-full transition-opacity duration-1000 ${
               index === current ? "opacity-100" : "opacity-0"
             }`}
             src={`https://picsum.photos/id/${i.id}/200/300`}
