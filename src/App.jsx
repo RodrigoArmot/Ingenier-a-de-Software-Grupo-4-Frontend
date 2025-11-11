@@ -7,7 +7,7 @@ import Layout from "./components/layout/Layout";
 import { Signup } from "./pages/Signup";
 import { ConfigProfile } from "./pages/ConfigProfile";
 import { DeleteProfile } from "./pages/DeleteProfile";
-
+import { RegistrarPromocion } from "./pages/Promociones/RegistrarPromocion";
 function App() {
   return (
     <>
@@ -20,6 +20,7 @@ function App() {
           <Route path="/user/deleteprofile" element={<DeleteProfile />} />
           <Route path="/registrarProductor" element={<RegistrarProductor />} />
           <Route path="/registrarLocal" element={<RegistrarLocal />} />
+          <Route path="/registrarPromocion" element={<RegistrarPromocion />} />
         </Route>
       </Routes>
     </>
