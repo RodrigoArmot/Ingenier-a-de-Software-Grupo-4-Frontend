@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { TriangleAlert, Ticket, History, UserMinus } from "lucide-react";
 import { Heading, Text } from "@radix-ui/themes";
-import Button from "../components/ui/Button";
-import { useAuthStore } from "../store/useAuthStore";
-import { eliminarCliente } from "../api/clienteService";
+import Button from "../../components/ui/Button";
+import { useAuthStore } from "../../store/useAuthStore";
+import { eliminarCliente } from "../../api/clienteService";
 import { useNavigate } from "react-router-dom";
 
 export const DeleteProfile = () => {

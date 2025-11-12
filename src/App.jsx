@@ -1,12 +1,12 @@
 import { Route, Routes } from "react-router-dom";
 import { Home } from "./pages/Home";
-import { Login } from "./pages/Login";
+import { Login } from "./pages/usuarios/Login";
 import { RegistrarProductor } from "./pages/RegistrarProductor";
 import { RegistrarLocal } from "./pages/RegistrarLocal";
 import Layout from "./components/layout/Layout";
-import { Signup } from "./pages/Signup";
-import { ConfigProfile } from "./pages/ConfigProfile";
-import { DeleteProfile } from "./pages/DeleteProfile";
+import { Signup } from "./pages/usuarios/Signup";
+import { ConfigProfile } from "./pages/usuarios/ConfigProfile";
+import { DeleteProfile } from "./pages/usuarios/DeleteProfile";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 
 function App() {

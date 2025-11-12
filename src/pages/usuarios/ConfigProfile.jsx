@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { LoginLabel } from "../components/LoginLabel";
-import Button from "../components/ui/Button";
-import { useAuthStore } from "../store/useAuthStore";
-import { actualizarCliente } from "../api/clienteService";
+import { LoginLabel } from "../../components/usuarios/LoginLabel";
+import Button from "../../components/ui/Button";
+import { useAuthStore } from "../../store/useAuthStore";
+import { actualizarCliente } from "../../api/clienteService";
+import { Link } from "react-router-dom";
 
 export const ConfigProfile = () => {
   const { user, updateUser } = useAuthStore();
@@ -74,9 +75,7 @@ export const ConfigProfile = () => {
         return;
       }
       if (formData.newPassword.length < 8) {
-        setApiError(
-          "La nueva contraseña debe tener al menos 8 caracteres."
-        );
+        setApiError("La nueva contraseña debe tener al menos 8 caracteres.");
         return;
       }
     }
@@ -220,19 +219,28 @@ export const ConfigProfile = () => {
                   />
                 </div>
                 <p className="text-xs text-zinc-500">
-                  * Si no deseas cambiar tu contraseña, deja estos campos vacíos.
+                  * Si no deseas cambiar tu contraseña, deja estos campos
+                  vacíos.
                 </p>
               </div>
             </section>
+
+            <p className="mt-4 text-xs text-zinc-500">
+              ¿Quieres desactivar tu cuenta?{" "}
+              <Link
+                to="/user/deleteProfile"
+                className="text-red-500 hover:underline"
+              >
+                Eliminar mi cuenta
+              </Link>
+            </p>
 
             {/* Mensajes */}
             {apiError && (
               <p className="text-sm text-red-400 mb-2">{apiError}</p>
             )}
             {apiSuccess && (
-              <p className="text-sm text-emerald-400 mb-2">
-                {apiSuccess}
-              </p>
+              <p className="text-sm text-emerald-400 mb-2">{apiSuccess}</p>
             )}
 
             {/* Botón guardar */}

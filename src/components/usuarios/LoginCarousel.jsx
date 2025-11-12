@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { carouselImages } from "../lib/mock";
+import { carouselImages } from "../../lib/mock";
 
 export const LoginCarousel = () => {
   const [current, setCurrent] = useState(0);

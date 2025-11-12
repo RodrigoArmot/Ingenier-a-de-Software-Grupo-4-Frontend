@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Ticket } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import Button from "../components/ui/Button";
-import { LoginLabel } from "../components/LoginLabel";
-import Validation from "../components/SignupValidation";
-import { registrarCliente } from "../api/clienteService";
+import Button from "../../components/ui/Button";
+import { LoginLabel } from "../../components/usuarios/LoginLabel";
+import Validation from "../../components/usuarios/SignupValidation";
+import { registrarCliente } from "../../api/clienteService";
 
 export const Signup = () => {
   const [formData, setFormData] = useState({

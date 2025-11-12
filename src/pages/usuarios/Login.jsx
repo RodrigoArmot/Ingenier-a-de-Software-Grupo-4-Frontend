@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { Ticket } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import Button from "../components/ui/Button";
-import { LoginCarousel } from "../components/LoginCarousel";
-import { LoginLabel } from "../components/LoginLabel";
-import Validation from "../components/LoginValidation";
-import { loginCliente } from "../api/clienteService";
-import { useAuthStore } from "../store/useAuthStore";
+import Button from "../../components/ui/Button";
+import { LoginCarousel } from "../../components/usuarios/LoginCarousel";
+import { LoginLabel } from "../../components/usuarios/LoginLabel";
+import Validation from "../../components/usuarios/LoginValidation";
+import { loginCliente } from "../../api/clienteService";
+import { useAuthStore } from "../../store/useAuthStore";
 
 export const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
