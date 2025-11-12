@@ -1,51 +1,63 @@
-import { Flex, Heading, Text,  TextField } from '@radix-ui/themes';
-import { Mail } from 'lucide-react';
+import { Flex, Heading, Text } from "@radix-ui/themes";
 
-// --- PASO 3: Confirmar y Pagar (Datos Adicionales) ---
 export const ResumenPromocion = ({ data, updateData }) => {
+  const getValorLabel = () => {
+    const tipo = data.tipoPromocion;
+
+    if (tipo === "Descuento Fijo" || tipo === "Puntos Promocionales") {
+      return "Valor (S/)";
+    }
+    if (tipo === "Descuento Porcentaje") {
+      return "Valor (%)";
+    }
+  };
+
+  const valorLabel = getValorLabel();
+
   return (
     <Flex direction="column" gap="4">
       <Heading size="6" className="text-text">
-        Paso 3: Confirmación y Pago
+        Paso 3: Confirmación y Detalles
       </Heading>
       <Text size="3" className="text-subtle">
-        Revisa tu orden antes de finalizar.
+        Revisa los detalles de tu promoción antes de finalizar.
       </Text>
 
-      {/* Resumen */}
+      {/* Resumen de la Promoción */}
       <div className="space-y-2 rounded-lg border border-slate-700 bg-slate-900/50 p-4">
-        <Heading size="3">Resumen de tu selección:</Heading>
-        <ul className="list-disc list-inside text-subtle space-y-1">
+        <Heading size="3" className="text-text">
+          Resumen de la Promoción:
+        </Heading>
+
+        <ul className="list-none space-y-1 text-subtle">
           <li>
-            <strong>Horario:</strong> {data.schedule || 'No seleccionado'}
+            <strong>Tipo:</strong> {data.tipoPromocion || "No definido"}
           </li>
           <li>
-            <strong>Asientos:</strong> {data.seats.join(', ') || 'Ninguno'}
+            <strong>Nombre:</strong> {data.nombrePromocion || "Sin nombre"}
+          </li>
+          <li>
+            <strong>{valorLabel}:</strong> {data.valorDescuento || "N/A"}
+          </li>
+          <li>
+            <strong>Stock:</strong> {data.stockDisponible || "Ilimitado"}
+          </li>
+          <li>
+            <strong>Vigencia:</strong> {data.fechaInicio || "N/A"} hasta{" "}
+            {data.fechaFin || "N/A"}
+          </li>
+          <li>
+            <strong>Canal:</strong> {data.condicionesCanal || "Todos"}
+          </li>
+          <li>
+            <strong>Sector:</strong> {data.condicionesSector || "Todos"}
+          </li>
+          <li>
+            <strong>Descripción:</strong>{" "}
+            {data.descripcion || "Sin descripción"}
           </li>
         </ul>
       </div>
-
-      {/* Campo de Email (estilo Radix) */}
-      <div className="space-y-1">
-        <label
-          htmlFor="email"
-          className="text-sm font-medium text-subtle"
-        >
-          Ingresa tu email para recibir los tickets:
-        </label>
-        <TextField.Root
-          id="email"
-          size="3"
-          type="email"
-          placeholder="tu@correo.com"
-          onChange={(e) => updateData('email', e.target.value)}
-          value={data.email || ''}
-        >
-          <TextField.Slot>
-            <Mail size={18} className="text-muted" />
-          </TextField.Slot>
-        </TextField.Root>
-      </div>
     </Flex>
   );
-}
+};

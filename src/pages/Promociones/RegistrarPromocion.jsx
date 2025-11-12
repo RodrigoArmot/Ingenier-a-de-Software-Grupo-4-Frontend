@@ -1,27 +1,37 @@
-import { useState } from 'react';
-import { Theme, Flex, Separator, Button, } from '@radix-ui/themes';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { useState } from "react";
+import { Theme, Flex, Separator } from "@radix-ui/themes";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
-import { SeleccionarPromocion } from './SeleccionarPromocion.jsx';
-import { RellenarFormulario } from './RellenarFormulario.jsx';
-import { ResumenPromocion } from './ResumenPromocion.jsx';
-import { RegistroExitoso } from './RegistroExitoso.jsx';
+import Button from "../../components/ui/Button";
 
+import { SeleccionarPromocion } from "./SeleccionarPromocion.jsx";
+import { RellenarFormulario } from "./RellenarFormulario.jsx";
+import { ResumenPromocion } from "./ResumenPromocion.jsx";
+import { RegistroExitoso } from "./RegistroExitoso.jsx";
 
 export const RegistrarPromocion = () => {
-
   // Estado para los pasos
   const [currentStep, setCurrentStep] = useState(1);
 
+  const initialState = {
+    tipoPromocion: null,
+    nombrePromocion: "",
+    descripcion: "",
+    valorDescuento: "",
+    fechaInicio: "",
+    fechaFin: "",
+    stockDisponible: "",
+    condicionesCanal: "",
+    condicionesSector: "",
+  };
+
   // Estados para los datos de la promoción
-  const [bookingData, setBookingData] = useState({
-    schedule: null,
-    seats: [],
-    email: '',
-  });
+  const [promocionData, setPromocionData] = useState(initialState);
 
   // Lógica de Navegación entre pasos
   const handleNext = () => {
+    console.log("Datos actuales de la promoción:", promocionData);
+
     if (currentStep < 4) {
       setCurrentStep((step) => step + 1);
     }
@@ -34,67 +44,88 @@ export const RegistrarPromocion = () => {
   };
 
   const handleReset = () => {
-    setBookingData({ schedule: null, seats: [], email: '' });
+    setPromocionData(initialState);
     setCurrentStep(1);
   };
 
   // Actualización de datos
   const updateData = (key, value) => {
-    setBookingData((prevData) => ({
+    setPromocionData((prevData) => ({
       ...prevData,
       [key]: value,
     }));
   };
 
-  // Validación que sí se puede avanzar al siguiente paso
+  // Validación (sin cambios)
   const isStepComplete = () => {
     switch (currentStep) {
       case 1:
-        return bookingData.schedule !== null; // Debe haber un horario
+        return promocionData.tipoPromocion !== null;
       case 2:
-        return bookingData.seats.length > 0; // Debe haber al menos 1 asiento
+        const {
+          nombrePromocion,
+          valorDescuento,
+          fechaInicio,
+          fechaFin,
+          stockDisponible,
+          condicionesCanal,
+        } = promocionData;
+
+        if (
+          !nombrePromocion ||
+          !valorDescuento ||
+          !fechaInicio ||
+          !fechaFin ||
+          !stockDisponible ||
+          !condicionesCanal
+        ) {
+          return false;
+        }
+        if (new Date(fechaFin) <= new Date(fechaInicio)) {
+          return false;
+        }
+        return true;
       case 3:
-        // Expresión regular simple para validar email
-        return bookingData.email && /\S+@\S+\.\S+/.test(bookingData.email);
+        return true;
       default:
         return true;
     }
   };
 
-  // Para ir atras en los pasos
-  const renderStep = () => {
-    switch (currentStep) {
-      case 1:
-        return <SeleccionarPromocion data={bookingData} updateData={updateData} />;
-      case 2:
-        return <RellenarFormulario data={bookingData} updateData={updateData} />;
-      case 3:
-        return <ResumenPromocion data={bookingData} updateData={updateData} />;
-      case 4:
-        return <RegistroExitoso data={bookingData} onReset={handleReset} />;
-      default:
-        return <SeleccionarPromocion data={bookingData} updateData={updateData} />;
-    }
-  };
-
   // Texto dinámico para el botón "Siguiente"
-  const nextButtonText = currentStep === 3 ? 'Finalizar' : 'Siguiente';
+  const nextButtonText =
+    currentStep === 3 ? "Finalizar y Guardar" : "Siguiente";
 
   return (
-    // Aplicamos el tema de Radix UI y los estilos globales
     <Theme appearance="dark">
-      {/* <GlobalStyles /> ha sido eliminado */}
-
-      {/* Tu <main> original, usando tus variables de color */}
       <main className="flex h-full min-h-screen w-full bg-background-dark text-text">
-        {/* Layout inspirado en RegistrarProductor.jsx */}
         <section className="mx-auto max-w-3xl w-full px-4 py-6 md:py-12">
-          {/* Contenedor del Stepper (con el fondo oscuro de tu ejemplo) */}
           <div className="rounded-2xl bg-slate-950/95 p-6 md:p-10 shadow-2xl">
-            {/* Contenido del paso actual */}
-            <div className="min-h-[300px]">{renderStep()}</div>
+            {/* Contenido de los pasos */}
+            <div className="min-h-[300px]">
+              <div style={{ display: currentStep === 1 ? "block" : "none" }}>
+                <SeleccionarPromocion
+                  data={promocionData}
+                  updateData={updateData}
+                />
+              </div>
+              <div style={{ display: currentStep === 2 ? "block" : "none" }}>
+                <RellenarFormulario
+                  data={promocionData}
+                  updateData={updateData}
+                />
+              </div>
+              <div style={{ display: currentStep === 3 ? "block" : "none" }}>
+                <ResumenPromocion
+                  data={promocionData}
+                  updateData={updateData}
+                />
+              </div>
+              <div style={{ display: currentStep === 4 ? "block" : "none" }}>
+                <RegistroExitoso data={promocionData} onReset={handleReset} />
+              </div>
+            </div>
 
-            {/* Mostramos la navegación solo si no estamos en la pantalla final */}
             {currentStep < 4 && (
               <>
                 <Separator my="5" size="4" />
@@ -107,7 +138,7 @@ export const RegistrarPromocion = () => {
                     onClick={handleBack}
                     disabled={currentStep === 1}
                     style={{
-                      visibility: currentStep === 1 ? 'hidden' : 'visible',
+                      visibility: currentStep === 1 ? "hidden" : "visible",
                     }}
                   >
                     <ArrowLeft size={18} />
@@ -117,7 +148,6 @@ export const RegistrarPromocion = () => {
                   {/* Botón Siguiente */}
                   <Button
                     size="3"
-                    className="bg-primary hover:bg-primary-600 text-white cursor-pointer"
                     onClick={handleNext}
                     disabled={!isStepComplete()}
                   >

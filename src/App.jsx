@@ -20,7 +20,7 @@ function App() {
           <Route path="/user/deleteprofile" element={<DeleteProfile />} />
           <Route path="/registrarProductor" element={<RegistrarProductor />} />
           <Route path="/registrarLocal" element={<RegistrarLocal />} />
-          <Route path="/registrarPromocion" element={<RegistrarPromocion />} />
+          <Route path="/promocion/registrarPromocion" element={<RegistrarPromocion />} />
         </Route>
       </Routes>
     </>
