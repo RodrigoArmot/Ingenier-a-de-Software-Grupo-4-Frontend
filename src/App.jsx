@@ -7,6 +7,7 @@ import Layout from "./components/layout/Layout";
 import { Signup } from "./pages/Signup";
 import { ConfigProfile } from "./pages/ConfigProfile";
 import { DeleteProfile } from "./pages/DeleteProfile";
+import { ProtectedRoute } from "./components/ProtectedRoute";
 
 function App() {
   return (
@@ -16,8 +17,11 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/user/configprofile" element={<ConfigProfile />} />
-          <Route path="/user/deleteprofile" element={<DeleteProfile />} />
+          {/* Rutas protegidas */}
+          <Route element={<ProtectedRoute />}>
+            <Route path="/user/configprofile" element={<ConfigProfile />} />
+            <Route path="/user/deleteprofile" element={<DeleteProfile />} />
+          </Route>
           <Route path="/registrarProductor" element={<RegistrarProductor />} />
           <Route path="/registrarLocal" element={<RegistrarLocal />} />
         </Route>

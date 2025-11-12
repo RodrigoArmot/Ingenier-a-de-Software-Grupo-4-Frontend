@@ -31,9 +31,23 @@ export const loginCliente = async ({ email, password }) => {
 };
 
 // Actualizar cliente
-export const actualizarCliente = async (id, clienteData) => {
-  const response = await api.put(`/clientes/${id}`, clienteData);
-  return response.data;
+export const actualizarCliente = async (id, formData) => {
+  const payload = {
+    correo: formData.email,
+    nombreUser: formData.username || formData.email,
+    telefono: formData.phonenumber,
+    direccion: formData.address,
+    tipoCliente: formData.tipoCliente || "REGISTRADO",
+    puntosPromocionales: formData.puntosPromocionales ?? undefined,
+  };
+
+  // cambio de contraseña
+  if (formData.newPassword) {
+    payload.password = formData.newPassword;
+  }
+
+  const { data } = await api.put(`/clientes/${id}`, payload);
+  return data;
 };
 
 // Eliminar (inactivar) cliente

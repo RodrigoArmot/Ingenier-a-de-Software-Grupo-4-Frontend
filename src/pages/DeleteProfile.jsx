@@ -1,11 +1,70 @@
+import { useState } from "react";
 import { TriangleAlert, Ticket, History, UserMinus } from "lucide-react";
-import Button from "../components/ui/Button";
 import { Heading, Text } from "@radix-ui/themes";
+import Button from "../components/ui/Button";
+import { useAuthStore } from "../store/useAuthStore";
+import { eliminarCliente } from "../api/clienteService";
+import { useNavigate } from "react-router-dom";
 
 export const DeleteProfile = () => {
+  const { user, logout } = useAuthStore();
+  const navigate = useNavigate();
+
+  const [password, setPassword] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [apiError, setApiError] = useState("");
+
+  const handleCancel = () => {
+    navigate("/config-profile");
+  };
+
+  const handleDelete = async () => {
+    setApiError("");
+
+    if (!user) {
+      setApiError("No se encontró la sesión del usuario.");
+      return;
+    }
+
+    // Confirmación simple
+    if (!password.trim()) {
+      setApiError(
+        "Por favor ingresa tu contraseña para confirmar la eliminación."
+      );
+      return;
+    }
+
+    try {
+      setIsDeleting(true);
+
+      const id = user.id || user.idCliente;
+      if (!id) {
+        setApiError(
+          "No se encontró el identificador del cliente en la sesión."
+        );
+        setIsDeleting(false);
+        return;
+      }
+
+      await eliminarCliente(id);
+
+      // Cerrar sesión local (el usuario quedó INACTIVO en back)
+      logout();
+
+      // Redirigir al inicio
+      navigate("/");
+    } catch (error) {
+      const msg =
+        error?.response?.data?.message ||
+        "No se pudo eliminar la cuenta. Inténtalo nuevamente.";
+      setApiError(msg);
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
   return (
     <main className="flex h-full items-center justify-center bg-background-dark text-text px-6">
-      {/* Contenedor centrado */}
       <div className="w-full max-w-2xl">
         <section className="rounded-2xl bg-slate-950/95 p-10 md:p-12 ring-1 ring-zinc-800 shadow-2xl space-y-8">
           {/* Encabezado */}
@@ -17,7 +76,9 @@ export const DeleteProfile = () => {
               Eliminar tu cuenta
             </Heading>
             <Text className="text-zinc-400 max-w-md">
-              Esta acción es final y no se puede deshacer. Por favor, lee atentamente las consecuencias.
+              Esta acción desactivará tu cuenta y no podrás acceder nuevamente
+              con tus credenciales. Por favor, lee atentamente las
+              consecuencias antes de continuar.
             </Text>
           </header>
 
@@ -26,9 +87,12 @@ export const DeleteProfile = () => {
             <div className="flex gap-3 rounded-lg bg-slate-900/80 p-4 items-center">
               <Ticket size={32} className="text-primary" />
               <div className="flex flex-col">
-                <Text className="font-medium text-white">Pérdida de todas tus entradas</Text>
+                <Text className="font-medium text-white">
+                  Pérdida de acceso a tus entradas
+                </Text>
                 <Text size="2" className="text-subtle">
-                  Perderás el acceso a todas las entradas activas y pasadas en tu cuenta.
+                  No podrás gestionar tus entradas asociadas a esta cuenta desde
+                  la plataforma.
                 </Text>
               </div>
             </div>
@@ -36,9 +100,12 @@ export const DeleteProfile = () => {
             <div className="flex gap-3 rounded-lg bg-slate-900/80 p-4 items-center">
               <History size={32} className="text-primary" />
               <div className="flex flex-col">
-                <Text className="font-medium text-white">Eliminación del historial de compras</Text>
+                <Text className="font-medium text-white">
+                  Historial inaccesible
+                </Text>
                 <Text size="2" className="text-subtle">
-                  Tu historial completo de compras y eventos será eliminado permanentemente.
+                  Tu historial de compras dejará de estar disponible para
+                  consulta desde tu cuenta.
                 </Text>
               </div>
             </div>
@@ -46,9 +113,12 @@ export const DeleteProfile = () => {
             <div className="flex gap-3 rounded-lg bg-slate-900/80 p-4 items-center">
               <UserMinus size={32} className="text-primary" />
               <div className="flex flex-col">
-                <Text className="font-medium text-white">Borrado de datos personales</Text>
+                <Text className="font-medium text-white">
+                  Desactivación de datos personales
+                </Text>
                 <Text size="2" className="text-subtle">
-                  Tus datos personales, preferencias y configuraciones de la cuenta se borrarán.
+                  Tus datos serán desactivados según las políticas de la
+                  plataforma.
                 </Text>
               </div>
             </div>
@@ -57,22 +127,39 @@ export const DeleteProfile = () => {
           {/* Confirmación */}
           <div className="space-y-3 border-t border-zinc-800 pt-6">
             <Text className="text-zinc-300">
-              Para confirmar que entiendes las consecuencias y deseas continuar, por favor ingresa tu contraseña.
+              Para confirmar que entiendes las consecuencias y deseas continuar,
+              ingresa tu contraseña actual.
             </Text>
             <input
               type="password"
               placeholder="Ingresa tu contraseña"
-              className="w-full mt-3 rounded-xl px-4 py-3 mb-1 text-base placeholder:text-muted ring-1 focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full mt-3 rounded-xl px-4 py-3 mb-1 text-base placeholder:text-muted ring-1 focus:outline-none focus:ring-2 focus:ring-primary transition-all bg-slate-950/90"
             />
+            {apiError && (
+              <p className="text-sm text-red-400 mt-1">{apiError}</p>
+            )}
           </div>
 
           {/* Botones */}
-          <div className="flex justify-between">
-            <Button variant="gray" >
+          <div className="flex justify-between pt-2">
+            <Button
+              type="button"
+              onClick={handleCancel}
+              className="px-4 py-2"
+            >
               Cancelar
             </Button>
-            <Button variant="danger">
-              Eliminar mi cuenta permanentemente
+            <Button
+              type="button"
+              onClick={handleDelete}
+              disabled={isDeleting}
+              className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white"
+            >
+              {isDeleting
+                ? "Eliminando cuenta..."
+                : "Eliminar mi cuenta permanentemente"}
             </Button>
           </div>
         </section>
