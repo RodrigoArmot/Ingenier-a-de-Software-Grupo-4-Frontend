@@ -40,7 +40,8 @@ npm run dev
 - **Tailwind CSS 4** - Framework de estilos
 - **React Router 7** - Routing
 - **Radix UI** - Componentes accesibles
-- **Lucide-react** Iconos
+- **Lucide-react** - Iconos
+- **Zustand** - Manejo de estados (principalmente auth store)
 
 ## 📁 Estructura del Proyecto
 
