@@ -35,10 +35,18 @@ export const Login = () => {
       setIsSubmitting(true);
 
       const data = await loginCliente(formData);
+
+      if (data.estado && data.estado.toUpperCase() === "INACTIVO") {
+        setApiError(
+          "Tu cuenta se encuentra inactiva. Si crees que es un error, contáctanos."
+        );
+        return; // no hacemos login()
+      }
+
       // aquí data es ClienteResponse: lo mandamos al store
       login(data);
 
-      navigate("/"); // redirige a home o donde quieras
+      navigate("/"); // redirige a home
     } catch (err) {
       const msg =
         err?.response?.data?.message ||

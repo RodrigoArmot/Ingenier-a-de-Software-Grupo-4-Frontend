@@ -48,6 +48,17 @@ export const DeleteProfile = () => {
 
       await eliminarCliente(id);
 
+      // Correo de confirmación de baja
+      try {
+        await enviarMailTexto({
+          to: user.correo,
+          subject: "Tu cuenta en Tikea ha sido desactivada",
+          body: "Hola, tu cuenta ha sido desactivada correctamente. Si no realizaste esta acción, contáctanos de inmediato.",
+        });
+      } catch (mailErr) {
+        console.warn("No se pudo enviar correo de baja:", mailErr);
+      }
+
       // Cerrar sesión local (el usuario quedó INACTIVO en back)
       logout();
 
@@ -77,8 +88,8 @@ export const DeleteProfile = () => {
             </Heading>
             <Text className="text-zinc-400 max-w-md">
               Esta acción desactivará tu cuenta y no podrás acceder nuevamente
-              con tus credenciales. Por favor, lee atentamente las
-              consecuencias antes de continuar.
+              con tus credenciales. Por favor, lee atentamente las consecuencias
+              antes de continuar.
             </Text>
           </header>
 
@@ -144,11 +155,7 @@ export const DeleteProfile = () => {
 
           {/* Botones */}
           <div className="flex justify-between pt-2">
-            <Button
-              type="button"
-              onClick={handleCancel}
-              className="px-4 py-2"
-            >
+            <Button type="button" onClick={handleCancel} className="px-4 py-2">
               Cancelar
             </Button>
             <Button
