@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { Ticket } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import Button from "../components/ui/Button";
-import { LoginLabel } from "../components/LoginLabel";
-import Validation from "../components/SignupValidation";
-import { registrarCliente } from "../api/clienteService";
+import Button from "../../components/ui/Button";
+import { LoginLabel } from "../../components/usuarios/LoginLabel";
+import Validation from "../../components/usuarios/SignupValidation";
+import { registrarCliente } from "../../api/clienteService";
+import { enviarMailTexto } from "../../api/mailService";
 
 export const Signup = () => {
   const [formData, setFormData] = useState({
@@ -42,7 +43,18 @@ export const Signup = () => {
       // Llamada real al backend
       await registrarCliente(formData);
 
-      // Opcional: mostrar toast aquí
+      // Enviar correo de bienvenida
+      try {
+        await enviarMailTexto({
+          to: formData.email,
+          subject: "Bienvenido a Tikea",
+          body: `Hola ${formData.name}, gracias por registrarte en Tikea. ¡Explora tus próximos eventos con nosotros!`,
+        });
+      } catch (mailErr) {
+        console.warn("No se pudo enviar el correo de bienvenida:", mailErr);
+      }
+
+      // Aquí se podría mostrar un toast
       // Luego redirigir al login
       navigate("/login");
     } catch (error) {
@@ -85,7 +97,11 @@ export const Signup = () => {
               Y empieza a descubrir tus próximos eventos favoritos
             </p>
 
-            <form className="text-text mt-8 space-y-6" onSubmit={handleSubmit} noValidate>
+            <form
+              className="text-text mt-8 space-y-6"
+              onSubmit={handleSubmit}
+              noValidate
+            >
               {/* Nombres */}
               <div>
                 <LoginLabel
@@ -112,9 +128,7 @@ export const Signup = () => {
                   onChange={handleInput}
                 />
                 {errors.lastname && (
-                  <p className="mt-1 text-red-400 text-sm">
-                    {errors.lastname}
-                  </p>
+                  <p className="mt-1 text-red-400 text-sm">{errors.lastname}</p>
                 )}
               </div>
 
@@ -144,9 +158,7 @@ export const Signup = () => {
                   onChange={handleInput}
                 />
                 {errors.address && (
-                  <p className="mt-1 text-red-400 text-sm">
-                    {errors.address}
-                  </p>
+                  <p className="mt-1 text-red-400 text-sm">{errors.address}</p>
                 )}
               </div>
 
@@ -193,17 +205,13 @@ export const Signup = () => {
                   onChange={handleInput}
                 />
                 {errors.password && (
-                  <p className="mt-1 text-red-400 text-sm">
-                    {errors.password}
-                  </p>
+                  <p className="mt-1 text-red-400 text-sm">{errors.password}</p>
                 )}
               </div>
 
               {/* Error del backend */}
               {apiError && (
-                <p className="text-sm text-red-400 text-center">
-                  {apiError}
-                </p>
+                <p className="text-sm text-red-400 text-center">{apiError}</p>
               )}
 
               {/* CTA */}

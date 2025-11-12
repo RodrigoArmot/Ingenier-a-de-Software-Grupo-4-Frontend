@@ -1,23 +1,21 @@
-// src/pages/Login.jsx
 import { useState } from "react";
 import { Ticket } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import Button from "../components/ui/Button";
-import { LoginCarousel } from "../components/LoginCarousel";
-import { LoginLabel } from "../components/LoginLabel";
-import Validation from "../components/LoginValidation";
-import { loginCliente } from "../api/clienteService";
+import Button from "../../components/ui/Button";
+import { LoginCarousel } from "../../components/usuarios/LoginCarousel";
+import { LoginLabel } from "../../components/usuarios/LoginLabel";
+import Validation from "../../components/usuarios/LoginValidation";
+import { loginCliente } from "../../api/clienteService";
+import { useAuthStore } from "../../store/useAuthStore";
 
 export const Login = () => {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
+  const [formData, setFormData] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({});
   const [apiError, setApiError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const navigate = useNavigate();
+  const login = useAuthStore((state) => state.login);
 
   const handleInput = (e) => {
     const { name, value } = e.target;
@@ -27,7 +25,6 @@ export const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validación en front
     const validationErrors = Validation(formData);
     setErrors(validationErrors);
     setApiError("");
@@ -37,15 +34,19 @@ export const Login = () => {
     try {
       setIsSubmitting(true);
 
-      // Llamada real al backend
       const data = await loginCliente(formData);
 
-      // Si llegó aquí es que el back validó credenciales correctamente.
-      // Guarda los datos del cliente.
-      localStorage.setItem("cliente", JSON.stringify(data));
+      if (data.estado && data.estado.toUpperCase() === "INACTIVO") {
+        setApiError(
+          "Tu cuenta se encuentra inactiva. Si crees que es un error, contáctanos."
+        );
+        return; // no hacemos login()
+      }
 
-      // Redirigir al home
-      navigate("/");
+      // aquí data es ClienteResponse: lo mandamos al store
+      login(data);
+
+      navigate("/"); // redirige a home
     } catch (err) {
       const msg =
         err?.response?.data?.message ||
@@ -58,10 +59,9 @@ export const Login = () => {
 
   return (
     <div className="flex h-full bg-background-dark">
-      {/* Columna izquierda: formulario */}
+      {/* form izquierda */}
       <div className="w-full lg:w-1/2 h-full flex items-center justify-center px-6">
         <div className="w-full max-w-2xl">
-          {/* Marca */}
           <header className="mb-8 flex items-center justify-center gap-3">
             <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-background-dark text-primary">
               <Ticket className="h-10 w-10" />
@@ -71,7 +71,6 @@ export const Login = () => {
             </span>
           </header>
 
-          {/* Card */}
           <section
             aria-labelledby="login-title"
             className="rounded-2xl bg-slate-950/95 p-10 md:p-12 ring-1 ring-border shadow-2xl"
@@ -91,7 +90,6 @@ export const Login = () => {
               onSubmit={handleSubmit}
               noValidate
             >
-              {/* Email */}
               <div>
                 <LoginLabel
                   type="email"
@@ -106,7 +104,6 @@ export const Login = () => {
                 )}
               </div>
 
-              {/* Password */}
               <div>
                 <LoginLabel
                   type="password"
@@ -129,12 +126,10 @@ export const Login = () => {
                 </div>
               </div>
 
-              {/* Error del backend */}
               {apiError && (
                 <p className="text-sm text-red-400 text-center">{apiError}</p>
               )}
 
-              {/* CTA */}
               <Button
                 type="submit"
                 disabled={isSubmitting}
@@ -143,7 +138,6 @@ export const Login = () => {
                 {isSubmitting ? "Iniciando sesión..." : "Iniciar Sesión"}
               </Button>
 
-              {/* Link registro */}
               <p className="pt-4 text-center text-sm text-muted">
                 ¿No tienes una cuenta?{" "}
                 <Link to="/signup" className="text-primary hover:underline">
@@ -155,7 +149,7 @@ export const Login = () => {
         </div>
       </div>
 
-      {/* Columna derecha: carrusel sólo en pantallas grandes */}
+      {/* carrusel derecha */}
       <LoginCarousel />
     </div>
   );

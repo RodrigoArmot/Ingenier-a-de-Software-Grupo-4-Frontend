@@ -1,5 +1,5 @@
 import { Flex, Heading, Text } from "@radix-ui/themes";
-import { LoginLabel } from "../../components/LoginLabel";
+import { LoginLabel } from "../../components/usuarios/LoginLabel";
 
 export const RellenarFormulario = ({ data, updateData }) => {
   const handleInput = (e) => {
