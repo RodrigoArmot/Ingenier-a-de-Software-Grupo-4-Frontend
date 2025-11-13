@@ -4,7 +4,13 @@ import { CalendarClock, Percent, Minus, Ticket } from "lucide-react";
 const iconMap = {
   "Descuento Porcentaje": <Percent size={20} />,
   "Descuento Fijo": <Minus size={20} />,
-  "Puntos Promocionales": <Ticket size={20} />,
+  "Cupón": <Ticket size={20} />,
+};
+
+const dataMap = {
+  "Descuento Porcentaje" : "DESCUENTO_PORCENTAJE",
+  "Descuento Fijo" : "DESCUENTO_FIJO",
+  "Cupón" : "CUPON",
 };
 
 export const SeleccionarPromocion = ({ data, updateData }) => {
@@ -12,7 +18,7 @@ export const SeleccionarPromocion = ({ data, updateData }) => {
   const tiposDePromocion = [
     "Descuento Porcentaje",
     "Descuento Fijo",
-    "Puntos Promocionales",
+    "Cupón",
   ];
 
   return (
@@ -31,12 +37,12 @@ export const SeleccionarPromocion = ({ data, updateData }) => {
               p-4 rounded-lg border-2 cursor-pointer transition-all duration-150
               flex flex-col items-center justify-center gap-2
               ${
-                data.tipoPromocion === tipo
+                data.tipoPromocion === dataMap[tipo]
                   ? "bg-primary text-white border-primary-600 shadow-lg"
                   : "bg-slate-900/50 border-slate-700 hover:border-slate-500 text-subtle"
               }
             `}
-            onClick={() => updateData("tipoPromocion", tipo)}
+            onClick={() => updateData("tipoPromocion", dataMap[tipo])}
           >
             {iconMap[tipo]}
             <span className="text-lg font-bold">{tipo}</span>

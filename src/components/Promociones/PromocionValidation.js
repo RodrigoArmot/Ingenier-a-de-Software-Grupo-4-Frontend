@@ -1,5 +1,3 @@
-// Ubicación: (ej. /components/PromocionValidation.js)
-
 function PromocionValidation(formData) {
   let error = {};
 

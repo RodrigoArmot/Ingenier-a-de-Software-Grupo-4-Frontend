@@ -9,6 +9,8 @@ import { RellenarFormulario } from "./RellenarFormulario.jsx";
 import { ResumenPromocion } from "./ResumenPromocion.jsx";
 import { RegistroExitoso } from "./RegistroExitoso.jsx";
 
+import Validation from "../../components/Promociones/PromocionValidation.js";
+
 export const RegistrarPromocion = () => {
   // Estado para los pasos
   const [currentStep, setCurrentStep] = useState(1);
@@ -32,12 +34,27 @@ export const RegistrarPromocion = () => {
   const handleNext = () => {
     console.log("Datos actuales de la promoción:", promocionData);
 
+    setErrors({});
+
+    if (currentStep === 2) {
+      const validationErrors = Validation(promocionData);
+      setErrors(validationErrors);
+
+      if (Object.keys(validationErrors).length > 0) {
+        return;
+      }
+    }
+
     if (currentStep < 4) {
       setCurrentStep((step) => step + 1);
     }
   };
 
+  // Para manejar los errores
+  const [errors, setErrors] = useState({});
+
   const handleBack = () => {
+    setErrors({});
     if (currentStep > 1) {
       setCurrentStep((step) => step - 1);
     }
@@ -45,6 +62,7 @@ export const RegistrarPromocion = () => {
 
   const handleReset = () => {
     setPromocionData(initialState);
+    setErrors({});
     setCurrentStep(1);
   };
 
@@ -54,6 +72,10 @@ export const RegistrarPromocion = () => {
       ...prevData,
       [key]: value,
     }));
+
+    if (errors[key]) {
+      setErrors((prev) => ({ ...prev, [key]: undefined }));
+    }
   };
 
   // Validación (sin cambios)
@@ -62,28 +84,6 @@ export const RegistrarPromocion = () => {
       case 1:
         return promocionData.tipoPromocion !== null;
       case 2:
-        const {
-          nombrePromocion,
-          valorDescuento,
-          fechaInicio,
-          fechaFin,
-          stockDisponible,
-          condicionesCanal,
-        } = promocionData;
-
-        if (
-          !nombrePromocion ||
-          !valorDescuento ||
-          !fechaInicio ||
-          !fechaFin ||
-          !stockDisponible ||
-          !condicionesCanal
-        ) {
-          return false;
-        }
-        if (new Date(fechaFin) <= new Date(fechaInicio)) {
-          return false;
-        }
         return true;
       case 3:
         return true;
@@ -113,6 +113,7 @@ export const RegistrarPromocion = () => {
                 <RellenarFormulario
                   data={promocionData}
                   updateData={updateData}
+                  errors={errors}
                 />
               </div>
               <div style={{ display: currentStep === 3 ? "block" : "none" }}>

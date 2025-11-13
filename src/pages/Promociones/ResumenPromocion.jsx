@@ -3,11 +3,10 @@ import { Flex, Heading, Text } from "@radix-ui/themes";
 export const ResumenPromocion = ({ data, updateData }) => {
   const getValorLabel = () => {
     const tipo = data.tipoPromocion;
-
-    if (tipo === "Descuento Fijo" || tipo === "Puntos Promocionales") {
+    if (tipo === "DESCUENTO_FIJO" || tipo === "CUPON") {
       return "Valor (S/)";
     }
-    if (tipo === "Descuento Porcentaje") {
+    if (tipo === "DESCUENTO_PORCENTAJE") {
       return "Valor (%)";
     }
   };

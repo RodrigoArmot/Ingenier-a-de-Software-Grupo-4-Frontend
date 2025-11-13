@@ -1,7 +1,8 @@
 import { Flex, Heading, Text } from "@radix-ui/themes";
 import { LoginLabel } from "../../components/usuarios/LoginLabel";
 
-export const RellenarFormulario = ({ data, updateData }) => {
+// 1. Aceptamos 'errors' como prop
+export const RellenarFormulario = ({ data, updateData, errors }) => {
   const handleInput = (e) => {
     const { name, value } = e.target;
     updateData(name, value);
@@ -14,15 +15,18 @@ export const RellenarFormulario = ({ data, updateData }) => {
   `;
   const getValorLabel = () => {
     const tipo = data.tipoPromocion;
-    if (tipo === "Descuento Fijo" || tipo === "Puntos Promocionales") {
+    if (tipo === "DESCUENTO_FIJO" || tipo === "CUPON") {
       return "Valor (S/)";
     }
-    if (tipo === "Descuento Porcentaje") {
+    if (tipo === "DESCUENTO_PORCENTAJE") {
       return "Valor (%)";
     }
   };
 
   const valorLabel = getValorLabel();
+
+  // 2. Definimos el estilo del texto de error (copiado de tu ejemplo)
+  const errorTextStyle = "mt-1 text-red-400 text-sm";
 
   return (
     <Flex direction="column" gap="4">
@@ -44,6 +48,10 @@ export const RellenarFormulario = ({ data, updateData }) => {
             value={data.nombrePromocion}
             onChange={handleInput}
           />
+          {/* 3. Mostramos el error si existe */}
+          {errors.nombrePromocion && (
+            <p className={errorTextStyle}>{errors.nombrePromocion}</p>
+          )}
         </div>
 
         {/* Descripción */}
@@ -63,6 +71,10 @@ export const RellenarFormulario = ({ data, updateData }) => {
             onChange={handleInput}
             className={inputStyle}
           />
+          {/* 3. Mostramos el error si existe */}
+          {errors.descripcion && (
+            <p className={errorTextStyle}>{errors.descripcion}</p>
+          )}
         </div>
 
         {/* Valor y Stock (en rejilla) */}
@@ -76,6 +88,10 @@ export const RellenarFormulario = ({ data, updateData }) => {
               value={data.valorDescuento}
               onChange={handleInput}
             />
+            {/* 3. Mostramos el error si existe */}
+            {errors.valorDescuento && (
+              <p className={errorTextStyle}>{errors.valorDescuento}</p>
+            )}
           </div>
           <div>
             <LoginLabel
@@ -86,6 +102,10 @@ export const RellenarFormulario = ({ data, updateData }) => {
               value={data.stockDisponible}
               onChange={handleInput}
             />
+            {/* 3. Mostramos el error si existe */}
+            {errors.stockDisponible && (
+              <p className={errorTextStyle}>{errors.stockDisponible}</p>
+            )}
           </div>
         </div>
 
@@ -100,6 +120,10 @@ export const RellenarFormulario = ({ data, updateData }) => {
               onChange={handleInput}
               placeholder=" "
             />
+            {/* 3. Mostramos el error si existe */}
+            {errors.fechaInicio && (
+              <p className={errorTextStyle}>{errors.fechaInicio}</p>
+            )}
           </div>
           <div>
             <LoginLabel
@@ -110,6 +134,10 @@ export const RellenarFormulario = ({ data, updateData }) => {
               onChange={handleInput}
               placeholder=" "
             />
+            {/* 3. Mostramos el error si existe */}
+            {errors.fechaFin && (
+              <p className={errorTextStyle}>{errors.fechaFin}</p>
+            )}
           </div>
         </div>
 
@@ -134,6 +162,10 @@ export const RellenarFormulario = ({ data, updateData }) => {
               <option value="Web">Web</option>
               <option value="Todos">Todos</option>
             </select>
+            {/* 3. Mostramos el error si existe */}
+            {errors.condicionesCanal && (
+              <p className={errorTextStyle}>{errors.condicionesCanal}</p>
+            )}
           </div>
           <div>
             <LoginLabel
@@ -144,6 +176,10 @@ export const RellenarFormulario = ({ data, updateData }) => {
               value={data.condicionesSector}
               onChange={handleInput}
             />
+            {/* 3. Mostramos el error si existe (aunque sea opcional, el patrón se mantiene) */}
+            {errors.condicionesSector && (
+              <p className={errorTextStyle}>{errors.condicionesSector}</p>
+            )}
           </div>
         </div>
       </div>
