@@ -73,3 +73,8 @@ export const carouselImages = [
   { id: 158, title: "Concert" },
   { id: 585, title: "Stadium" },
 ];
+
+export const LocationList = [
+  { id: 158, title: "Concert" },
+  { id: 585, title: "Stadium" },
+];

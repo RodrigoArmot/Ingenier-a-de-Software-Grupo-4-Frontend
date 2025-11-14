@@ -3,6 +3,7 @@ import { Home } from "./pages/Home";
 import { Login } from "./pages/Login";
 import { RegistrarProductor } from "./pages/RegistrarProductor";
 import { RegistrarLocal } from "./pages/RegistrarLocal";
+import { RegistrarEvento } from "./pages/RegistrarEvento";
 import Layout from "./components/layout/Layout";
 import { Signup } from "./pages/Signup";
 import { ConfigProfile } from "./pages/ConfigProfile";
@@ -20,6 +21,7 @@ function App() {
           <Route path="/user/deleteprofile" element={<DeleteProfile />} />
           <Route path="/registrarProductor" element={<RegistrarProductor />} />
           <Route path="/registrarLocal" element={<RegistrarLocal />} />
+          <Route path="/registrarEvento" element={<RegistrarEvento />} />
         </Route>
       </Routes>
     </>
