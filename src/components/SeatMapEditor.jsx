@@ -113,7 +113,7 @@ export default function SeatMapEditor({
       {/* Toolbar (solo filas/columnas y reset) */}
       <div className="flex flex-wrap items-center gap-2">
         <div className="ml-2 flex items-center gap-2">
-          <span className="text-sm text-zinc-600">Filas</span>
+          <span className="text-sm text-text">Filas</span>
           <button
             className="h-8 w-8 rounded-md border hover:bg-zinc-100"
             onClick={() => setRows((n) => Math.max(1, n - 1))}
@@ -134,7 +134,7 @@ export default function SeatMapEditor({
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="text-sm text-zinc-600">Columnas</span>
+          <span className="text-sm text-text">Columnas</span>
           <button
             className="h-8 w-8 rounded-md border hover:bg-zinc-100"
             onClick={() => setCols((n) => Math.max(1, n - 1))}
