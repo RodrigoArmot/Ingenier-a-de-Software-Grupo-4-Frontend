@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Theme, Flex, Separator } from "@radix-ui/themes";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
+import { registrarPromocion } from "../../api/promocionService.js";
+
 import Button from "../../components/ui/Button";
 
 import { SeleccionarPromocion } from "./SeleccionarPromocion.jsx";
@@ -25,16 +27,23 @@ export const RegistrarPromocion = () => {
     stockDisponible: "",
     condicionesCanal: "",
     condicionesSector: "",
+    idEvento: 1, //Para la primera iteración
   };
 
   // Estados para los datos de la promoción
   const [promocionData, setPromocionData] = useState(initialState);
 
+  // Para manejar los errores y carga
+  const [errors, setErrors] = useState({});
+  const [apiError, setApiError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   // Lógica de Navegación entre pasos
-  const handleNext = () => {
+  const handleNext = async () => {
     console.log("Datos actuales de la promoción:", promocionData);
 
     setErrors({});
+    setApiError("");
 
     if (currentStep === 2) {
       const validationErrors = Validation(promocionData);
@@ -45,13 +54,38 @@ export const RegistrarPromocion = () => {
       }
     }
 
+    if (currentStep === 3) {
+      setIsSubmitting(true);
+      try {
+        const payload = {
+          nombre: promocionData.nombrePromocion,
+          descripcion: promocionData.descripcion,
+          tipo: promocionData.tipoPromocion,
+          valorDescuento: parseFloat(promocionData.valorDescuento) || 0,
+          fechaInicio: promocionData.fechaInicio,
+          fechaFin: promocionData.fechaFin,
+          stockDisponible: parseInt(promocionData.stockDisponible, 10) || 0,
+          condicionesCanal: promocionData.condicionesCanal,
+          condicionesSector: promocionData.condicionesSector,
+          idEvento: promocionData.idEvento,
+        };
+        await registrarPromocion(payload);
+        setCurrentStep((step) => step + 1);
+      } catch (error) {
+        const message =
+          error?.response?.data?.message ||
+          "Error al registrar la promoción. Por favor, intenta nuevamente.";
+        setApiError(message);
+      } finally {
+        setIsSubmitting(false);
+      }
+      return;
+    }
+
     if (currentStep < 4) {
       setCurrentStep((step) => step + 1);
     }
   };
-
-  // Para manejar los errores
-  const [errors, setErrors] = useState({});
 
   const handleBack = () => {
     setErrors({});
@@ -94,7 +128,11 @@ export const RegistrarPromocion = () => {
 
   // Texto dinámico para el botón "Siguiente"
   const nextButtonText =
-    currentStep === 3 ? "Finalizar y Guardar" : "Siguiente";
+    currentStep === 3
+      ? isSubmitting
+        ? "Guardando..."
+        : "Finalizar y Guardar"
+      : "Siguiente";
 
   return (
     <Theme appearance="dark">

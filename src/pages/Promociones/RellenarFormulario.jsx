@@ -158,9 +158,8 @@ export const RellenarFormulario = ({ data, updateData, errors }) => {
               className={inputStyle} // Aplicamos el estilo de input
             >
               <option value="">Selecciona un canal...</option>
-              <option value="Taquilla">Taquilla</option>
-              <option value="Web">Web</option>
-              <option value="Todos">Todos</option>
+              <option value="TAQUILLA">Taquilla</option>
+              <option value="WEB">Web</option>
             </select>
             {/* 3. Mostramos el error si existe */}
             {errors.condicionesCanal && (

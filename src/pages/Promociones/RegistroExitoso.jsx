@@ -3,8 +3,7 @@ import { Flex, Heading, Text } from "@radix-ui/themes";
 import Button from "../../components/ui/Button";
 import { CheckCircle } from "lucide-react";
 
-// --- PASO 4: Pantalla Final de Éxito ---
-export const RegistroExitoso = ({ data, onReset }) => {
+export const RegistroExitoso = ({ data }) => {
   return (
     <Flex direction="column" align="center" gap="4" className="py-8">
       <CheckCircle size={64} className="text-green-500" />
