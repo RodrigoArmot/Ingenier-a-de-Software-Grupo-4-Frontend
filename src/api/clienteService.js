@@ -10,7 +10,7 @@ export const registrarCliente = async (formData) => {
     telefono: formData.phonenumber,
     dni: formData.dni,
     direccion: formData.address,
-    nombreUser: formData.email,  // aca creo que es un campo mas en el form en realidad, por mientras lo dejare asi
+    nombreUser: formData.username,
     puntosPromociones: 0,
     tipoCliente: "REGISTRADO",
   };
