@@ -1,0 +1,63 @@
+import api from "./axiosConfig";
+
+// Registrar cliente
+export const registrarCliente = async (formData) => {
+  const payload = {
+    nombre: formData.name,
+    apellidos: formData.lastname,
+    correo: formData.email,
+    password: formData.password,
+    telefono: formData.phonenumber,
+    dni: formData.dni,
+    direccion: formData.address,
+    nombreUser: formData.username,
+    puntosPromociones: 0,
+    tipoCliente: "REGISTRADO",
+  };
+
+  const { data } = await api.post("/clientes/registro", payload);
+  return data;
+};
+
+// Login cliente
+export const loginCliente = async ({ email, password }) => {
+  const payload = {
+    correo: email,
+    password,
+  };
+
+  const { data } = await api.post("/clientes/login", payload);
+  return data;
+};
+
+// Actualizar cliente
+export const actualizarCliente = async (id, formData) => {
+  const payload = {
+    correo: formData.email,
+    nombreUser: formData.username || formData.email,
+    telefono: formData.phonenumber,
+    direccion: formData.address,
+    tipoCliente: formData.tipoCliente || "REGISTRADO",
+    puntosPromocionales: formData.puntosPromocionales ?? undefined,
+  };
+
+  // cambio de contraseña
+  if (formData.newPassword) {
+    payload.password = formData.newPassword;
+  }
+
+  const { data } = await api.put(`/clientes/${id}`, payload);
+  return data;
+};
+
+// Eliminar (inactivar) cliente
+export const eliminarCliente = async (id) => {
+  const response = await api.delete(`/clientes/${id}`);
+  return response.data;
+};
+
+// Listar todos los clientes
+export const listarClientes = async () => {
+  const response = await api.get("/clientes");
+  return response.data;
+};

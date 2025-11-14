@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { carouselImages } from "../lib/mock";
+import { carouselImages } from "../../lib/mock";
 
 export const LoginCarousel = () => {
   const [current, setCurrent] = useState(0);
@@ -21,7 +21,7 @@ export const LoginCarousel = () => {
             className={`absolute w-full h-full transition-opacity duration-1000 ${
               index === current ? "opacity-100" : "opacity-0"
             }`}
-            src={`https://picsum.photos/id/${i.id}/200/300`}
+            src={i.source}
             alt={i.title}
           />
         ))}

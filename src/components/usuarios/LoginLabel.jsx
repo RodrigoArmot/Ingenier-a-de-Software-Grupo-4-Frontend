@@ -7,6 +7,7 @@ export const LoginLabel = ({
   placeholder,
   required = false,
   onChange,
+  value,
 }) => {
   const [show, setShow] = useState(false);
   return type === "password" ? (
@@ -36,6 +37,7 @@ export const LoginLabel = ({
       <input
         type={type}
         name={name}
+        value={value}
         label={label}
         required={required}
         placeholder={placeholder}

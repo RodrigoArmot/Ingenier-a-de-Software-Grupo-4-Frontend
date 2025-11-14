@@ -1,13 +1,14 @@
-import FilePicker from "../components/FilePicker";
+import FilePicker from "../../components/FilePicker";
 import {
   Button, Card, Flex, Heading, Separator, Text, TextField, Select, Dialog
 } from '@radix-ui/themes';
 import { CheckCircledIcon } from '@radix-ui/react-icons';
 import { useState, useCallback } from 'react';
 import { useNavigate, Link } from "react-router-dom";
-import StadiumZoneMap from "../components/StadiumZoneMap";
-import TheaterZoneMap from "../components/TheaterZoneMap";
-import SeatMapEditor from "../components/SeatMapEditor";
+import Button from "../../components/ui/Button";
+import StadiumZoneMap from "../../components/StadiumZoneMap";
+import TheaterZoneMap from "../../components/TheaterZoneMap";
+import SeatMapEditor from "../../components/SeatMapEditor";
 
 export const RegistrarLocal = () => {
   const navigate = useNavigate();
