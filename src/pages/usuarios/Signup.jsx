@@ -16,6 +16,7 @@ export const Signup = () => {
     phonenumber: "",
     email: "",
     password: "",
+    username: "",
   });
   const [errors, setErrors] = useState({});
   const [apiError, setApiError] = useState("");
@@ -177,6 +178,18 @@ export const Signup = () => {
                     {errors.phonenumber}
                   </p>
                 )}
+              </div>
+
+              {/* Nombre de usuario */}
+              <div>
+                <LoginLabel
+                  type="text"
+                  name="username"
+                  label="Nombre de usuario"
+                  placeholder="nombreusuario"
+                  value={formData.username}
+                  onChange={handleInput}
+                />
               </div>
 
               {/* Email */}

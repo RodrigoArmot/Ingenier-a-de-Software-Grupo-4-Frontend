@@ -73,3 +73,8 @@ export const carouselImages = [
   { id: 1, title: "Concert", source: "/concertLogin.webp"},
   { id: 2, title: "Stadium", source: "/stadiumLogin.jpg"},
 ];
+
+export const LocationList = [
+  { id: 158, title: "Concert" },
+  { id: 585, title: "Stadium" },
+];
