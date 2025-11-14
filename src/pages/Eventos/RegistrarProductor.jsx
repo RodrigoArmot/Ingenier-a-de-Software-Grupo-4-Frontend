@@ -14,25 +14,103 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Button from "../../components/ui/Button";
 
+import { registrarProductor } from "../../api/productorService";
+
+const fileToBase64 = (file) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      resolve(reader.result.split(",")[1]);
+    };
+    reader.onerror = (error) => reject(error);
+  });
+
 export const RegistrarProductor = () => {
   const navigate = useNavigate();
-  const [errors] = useState({});
+  const [errors, setErrors] = useState({});
   const [successOpen, setSuccessOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [apiError, setApiError] = useState("");
 
-  function handleSubmit(e) {
+  const [documentoBase64, setDocumentoBase64] = useState("");
+  const [fileName, setFileName] = useState("");
+
+  const handleFileChange = async (files) => {
+    const file = files[0];
+    if (!file) {
+      setDocumentoBase64("");
+      setFileName("");
+      return;
+    }
+    setFileName(file.name);
+    try {
+      const base64String = await fileToBase64(file);
+      setDocumentoBase64(base64String);
+      if (errors.archivo) {
+        setErrors((prev) => ({ ...prev, archivo: undefined }));
+      }
+    } catch (error) {
+      console.error("Error al convertir el archivo a Base64:", error);
+      setErrors((prev) => ({
+        ...prev,
+        archivo: "Error al procesar el archivo.",
+      }));
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const form = e.currentTarget;
-    const fd = new FormData(form);
+    setApiError("");
+    setErrors({});
 
+    const form = e.currentTarget;
     if (typeof form.checkValidity === "function" && !form.checkValidity()) {
       form.reportValidity?.();
       return;
     }
 
+    if (!documentoBase64) {
+      setErrors({ archivo: "Debe adjuntar la documentación." });
+      return;
+    }
+
+    const fd = new FormData(form);
     const data = Object.fromEntries(fd.entries());
-    console.log("payload", data);
-    setSuccessOpen(true);
-  }
+
+    setIsSubmitting(true);
+
+    try {
+      const payload = {
+        nombre: data.rep_nombre,
+        apellidos: data.rep_apellidos,
+        email: data.email,
+        password: "Test1234@", 
+        telefono: data.telefono,
+        nombreUsuario: data.rep_nombre.toLowerCase() + data.ruc, 
+        dni: data.doc_numero,
+
+        idGestor: 18, // Valor fijo de tu ejemplo
+        razonSocial: data.razon, // El name="razon" en tu form
+        ruc: data.ruc,
+        direccionFisica: "Por registrar",
+        tipoEstadoProductor: "PENDIENTE_VALIDACION", 
+        documentacionFisica: documentoBase64, // 7. Se añade el Base64
+      };
+
+      console.log("Enviando payload:", payload);
+      await registrarProductor(payload);
+
+      setSuccessOpen(true);
+    } catch (error) {
+      const message =
+        error?.response?.data?.message ||
+        "Ocurrió un error al enviar la solicitud.";
+      setApiError(message);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <main className="h-full bg-background-dark text-text">
@@ -156,8 +234,8 @@ export const RegistrarProductor = () => {
                       name="doc_numero"
                       placeholder="Ej. 123456789"
                       inputMode="numeric"
-                      pattern="[0-9]{12}"
-                      maxLength={12}
+                      pattern="[0-9]{8}"
+                      maxLength={8}
                       required
                       size="3"
                     ></TextField.Root>
@@ -210,16 +288,21 @@ export const RegistrarProductor = () => {
                   required
                   accept=".zip,.rar"
                   multiple={false}
+                  onChange={handleFileChange}
+                  fileName={fileName}
                   error={errors.archivo}
                 />
               </div>
+
+              {apiError && (
+                <Text size="2" color="red" align="center">{apiError}</Text>
+              )}
+
               <Flex gap="3" justify="end" mt="3">
                 <Button variant="gray">
                   <Link to="/">Cancelar</Link>
                 </Button>
-                <Button type="submit" >
-                  Enviar solicitud
-                </Button>
+                <Button type="submit">Enviar solicitud</Button>
               </Flex>
             </Flex>
           </form>
