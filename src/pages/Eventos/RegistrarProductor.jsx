@@ -1,5 +1,5 @@
-import HeaderRegistroProductor from "../components/HeaderRegistroProductor";
-import FilePicker from "../components/FilePicker";
+import HeaderRegistroProductor from "../../components/HeaderRegistroProductor";
+import FilePicker from "../../components/FilePicker";
 import {
   Flex,
   Heading,
@@ -12,7 +12,7 @@ import {
 import { CheckCircledIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import Button from "../components/ui/Button";
+import Button from "../../components/ui/Button";
 
 export const RegistrarProductor = () => {
   const navigate = useNavigate();

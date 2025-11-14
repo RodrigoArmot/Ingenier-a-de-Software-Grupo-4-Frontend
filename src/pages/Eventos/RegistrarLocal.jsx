@@ -1,4 +1,4 @@
-import FilePicker from "../components/FilePicker";
+import FilePicker from "../../components/FilePicker";
 import {
   Flex,
   Heading,
@@ -11,10 +11,10 @@ import {
 import { CheckCircledIcon } from "@radix-ui/react-icons";
 import { useState, useCallback } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import Button from "../components/ui/Button";
-import StadiumZoneMap from "../components/StadiumZoneMap";
-import TheaterZoneMap from "../components/TheaterZoneMap";
-import SeatMapEditor from "../components/SeatMapEditor";
+import Button from "../../components/ui/Button";
+import StadiumZoneMap from "../../components/StadiumZoneMap";
+import TheaterZoneMap from "../../components/TheaterZoneMap";
+import SeatMapEditor from "../../components/SeatMapEditor";
 
 export const RegistrarLocal = () => {
   const navigate = useNavigate();
