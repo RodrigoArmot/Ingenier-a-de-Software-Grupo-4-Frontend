@@ -6,6 +6,7 @@ export const registrarCliente = async (formData) => {
     nombre: formData.name,
     apellidos: formData.lastname,
     correo: formData.email,
+    nombreUsuario: formData.username,
     password: formData.password,
     telefono: formData.phonenumber,
     dni: formData.dni,
