@@ -6,11 +6,11 @@ export const registrarCliente = async (formData) => {
     nombre: formData.name,
     apellidos: formData.lastname,
     correo: formData.email,
+    nombreUsuario: formData.username,
     password: formData.password,
     telefono: formData.phonenumber,
     dni: formData.dni,
     direccion: formData.address,
-    nombreUser: formData.username,
     puntosPromociones: 0,
     tipoCliente: "REGISTRADO",
   };
@@ -34,7 +34,7 @@ export const loginCliente = async ({ email, password }) => {
 export const actualizarCliente = async (id, formData) => {
   const payload = {
     correo: formData.email,
-    nombreUser: formData.username || formData.email,
+    nombreUsuario: formData.username,
     telefono: formData.phonenumber,
     direccion: formData.address,
     tipoCliente: formData.tipoCliente || "REGISTRADO",
